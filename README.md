@@ -41,6 +41,10 @@ Nodes communicate via **UDP broadcast** to share:
 * **Hardware**: Live CPU & GPU usage (via NVIDIA SMI).
 * **Remote Control**: Restart specific nodes or the entire farm with one click.
 
+> [!NOTE]
+> **Scalability**: This system has been tested with up to **4 nodes** with negligible CPU and RAM overhead. Larger clusters may experience unexpected CPU spikes or increased memory usage due to the frequency of UDP broadcasts.
+
+
 ### 🖼️ Tray UI Overview
 The tray menu provides a bird's-eye view of your entire network:
 ```text
@@ -106,6 +110,7 @@ You can tweak the following variables directly inside the `.ps1` file:
 * **"Scripts Disabled"**: Right-click the `.ps1` file > **Properties** > Check **Unblock**. 
 * **Missing Icon**: Ensure `wrm_icon.ico` is in the same folder as the script.
 * **Nodes Not Appearing**: Ensure all machines are on the same LAN/Subnet and that your Firewall isn't blocking UDP Port 25565.
+* **Hidden nodes**: The system is only tested with up to 4 Nodes, if the list is too long or unexpected 
 
 ---
 
