@@ -184,7 +184,7 @@ GPU monitoring requires:
 
 # Installation
 
-Place the script in the same folder as the Flamenco executables.
+Place the script and icon in the same folder as the Flamenco executables. 
 
 Example:
 
@@ -193,7 +193,7 @@ rendernode/
  ├ WatchdogRenderfarmManager.ps1
  ├ flamenco-worker.exe
  ├ flamenco-manager.exe
- └ jaam_icon.ico
+ └ wrm_icon.ico
 ```
 
 ---
