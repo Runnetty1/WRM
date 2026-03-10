@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="WRM_white.png" alt="WRM LOGO" width="400">
+  <img src="images/WRM_white.png" alt="WRM LOGO" width="400">
 </p>
 
 # Watchdog Renderfarm Manager (WRM)
