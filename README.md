@@ -10,7 +10,7 @@
 ![Status](https://img.shields.io/badge/Project-Stable-brightgreen)
 
 
-A lightweight **PowerShell render node watchdog and cluster manager** designed for **Flamenco render farms**.
+A lightweight **PowerShell render node watchdog and cluster manager** designed for [**Flamenco render farms**](https://flamenco.blender.org)
 
 
 WRM runs quietly in the **Windows system tray**, monitors render nodes, automatically restarts crashed services, and provides a simple cluster overview without requiring a dedicated management server.
