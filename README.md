@@ -1,3 +1,4 @@
+markdown
 <p align="center">
   <img src="WRM_white.png" alt="WRM LOGO" width="400">
 </p>
@@ -9,196 +10,63 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Project-Stable-brightgreen)
 
+A lightweight **PowerShell render node watchdog and cluster manager** designed for [**Flamenco render farms**](https://flamenco.blender.org).
 
-A lightweight **PowerShell render node watchdog and cluster manager** designed for [**Flamenco render farms**](https://flamenco.blender.org)
-
-
-WRM runs quietly in the **Windows system tray**, monitors render nodes, automatically restarts crashed services, and provides a simple cluster overview without requiring a dedicated management server.
+WRM runs quietly in the **Windows system tray**, monitoring nodes, automatically restarting crashed services, and providing a live cluster overview—all without requiring a dedicated management server.
 
 ---
 
-# Features
+## ✨ Why WRM?
 
-### Node Monitoring
+Standard Flamenco workers run in visible console windows which can be cluttered and easily closed by accident. Furthermore, Flamenco doesn't natively handle service crashes or silent node failures. 
 
-* Automatically starts **Flamenco Worker**
-* Optionally runs **Flamenco Manager**
-* Detects crashes and **restarts processes automatically**
-* Detects multiple worker instances and fixes them
-
----
-
-### Automatic Recovery
-
-WRM keeps render nodes stable by automatically handling failures.
-
-* Worker crash detection
-* Manager crash detection
-* Automatic worker restart
-* Automatic system reboot after repeated crashes
-* Scheduled weekly restart
+**WRM solves this by:**
+* **Running Stealth**: No more taskbar clutter; Flamenco runs in the background.
+* **Self-Healing**: Detects crashes and restarts services (or the OS) automatically.
+* **Live Insight**: Real-time CPU/GPU monitoring directly from your system tray.
+* **Zero Config**: Uses UDP broadcast for instant "it just works" discovery.
 
 ---
 
-### Cluster Discovery
+## 🚀 Features
 
-Nodes automatically discover each other using **UDP broadcast**.
+### 🛡️ Automatic Recovery
+* **Crash Detection**: Restarts Worker/Manager processes immediately upon failure.
+* **Self-Correction**: Identifies and kills duplicate worker instances.
+* **System Health**: Triggers a system reboot after repeated service crashes or on a weekly schedule (default: Sundays at 12:00).
 
-No configuration required.
+### 📡 Cluster Discovery & Monitoring
+Nodes communicate via **UDP broadcast** to share:
+* **Status**: Worker/Manager online/offline states.
+* **Hardware**: Live CPU & GPU usage (via NVIDIA SMI).
+* **Remote Control**: Restart specific nodes or the entire farm with one click.
 
-Each node broadcasts:
-
-* hostname
-* worker status
-* manager status
-* CPU usage
-* GPU usage
-
-Nodes automatically appear in the tray menu.
-
----
-
-### Tray UI
-
-Each node runs a **Windows tray manager** showing:
-
-* Worker status
-* Manager status
-* Network nodes
-* Live CPU usage
-* Live GPU usage
-
-Example:
-
-```id="i3vflp"
+### 🖼️ Tray UI Overview
+The tray menu provides a bird's-eye view of your entire network:
+```text
 Network Nodes
-  Restart All Nodes
+  [Restart All Nodes]
 
   Render01   ●●   CPU 93%  GPU 99%
   Render02   ●●   CPU 81%  GPU 96%
   Render03   ●○   CPU 12%  GPU 0%
 ```
-
-Icons:
-
-| Icon | Meaning                  |
-| ---- | ------------------------ |
-| ●●   | Worker + Manager running |
-| ●○   | Worker running           |
-| ○○   | Offline                  |
+*   ●● : Both Worker & Manager Active
+*   ●○ : Worker Only Active
+*   ○○ : Node Offline
 
 ---
 
-### Remote Control
-
-Nodes can send commands across the network:
-
-* Restart all nodes
-* Restart a specific node
-
-Uses **UDP broadcast**, no central server required.
-
----
-
-### Notifications
-
-Nodes notify the farm when events happen.
-
-Notifications include:
-
-* Worker crash
-* Manager crash
-* Node restarting
-* Node online
-* Node offline
-
-Example Windows notification:
-
-```id="07pc6n"
-Render Node Event
-Render02 : Worker crashed (#1)
-```
-
----
-
-### Hardware Monitoring
-
-Nodes broadcast live performance data:
-
-* CPU usage
-* GPU usage (via NVIDIA SMI)
-
-This helps identify:
-
-* stuck render nodes
-* idle machines
-* overloaded machines
-
-Example:
-
-```id="t3afys"
-Render01   CPU 96%  GPU 99%
-Render02   CPU 72%  GPU 95%
-Render03   CPU 10%  GPU 0%
-```
-
----
-
-# Architecture
-
-Each render node runs the same script.
-
-```id="nmq7x2"
-Render Node
- ├ Flamenco Worker
- ├ WRM Watchdog Script
- └ UDP Broadcast
-```
-
-Manager node runs:
-
-```id="s8pqqn"
-Manager Node
- ├ Flamenco Manager
- ├ Flamenco Worker
- ├ WRM Watchdog Script
- └ Tray UI
-```
-
-Nodes communicate using **UDP broadcast** across the LAN.
-
-No central control server is required.
-
----
-
-# Requirements
-
-* Windows
-* PowerShell 5+
-
-Flamenco worker and manager:
-
-https://flamenco.blender.org
-
-GPU monitoring requires:
-
-* NVIDIA GPU
-* NVIDIA drivers with `nvidia-smi`
-
----
-
-# Installation Guide
+## 🛠️ Installation Guide
 
 ### 1. Prerequisites
-Before setting up the manager/worker scripts:
-*   Follow the official [Flamenco Quickstart Guide](https://flamenco.blender.org).
-*   **Firewall**: Ensure inbound and outbound rules are open for the required ports on all machines. (Default: **Port 25565**).
-*   **Auto-Login**: Configure Windows to bypass the login screen so nodes resume automatically after a restart.
+* **Flamenco**: Follow the [Official Quickstart](https://flamenco.blender.org).
+* **Drivers**: NVIDIA drivers with `nvidia-smi` (for GPU monitoring).
+* **Network**: Open **Port 25565** (UDP) for inbound/outbound traffic.
+* **OS Settings**: Disable Windows login passwords to allow nodes to auto-resume after reboots.
 
 ### 2. File Placement
-Place the script and its icon in the same directory as your Flamenco executables.
-
-**Example Structure:**
+Place the script and icon in your Flamenco directory:
 ```text
 rendernode/
  ├─ WatchdogRenderfarmManager.ps1
@@ -207,12 +75,9 @@ rendernode/
  └─ wrm_icon.ico
 ```
 
-### 3. Configure Windows Auto-Start
-To ensure the manager and workers start automatically on boot:
-
-1. Press `Win + R`, type **`shell:startup`**, and hit Enter to open your Startup folder.
-2. Right-click inside the folder and select **New > Shortcut**.
-3. In the location box, paste the appropriate command (replace `Z:\path\to\` with your actual file path):
+### 3. Setup Auto-Start
+1. Press `Win + R`, type `shell:startup`, and hit Enter.
+2. Create a **New Shortcut** and paste the command (update the path to your `Z:\` or local drive):
 
 **For Workers:**
 ```powershell
@@ -226,102 +91,26 @@ powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Z:\path\to\Wat
 
 ---
 
-## 🛠️ Troubleshooting
+## ⚙️ Configuration & Logs
+You can tweak the following variables directly inside the `.ps1` file:
+* `$BroadcastPort = 25565`
+* `$CheckIntervalSeconds = 5`
+* `$CrashRestartThreshold = 3`
 
-### Script Fails to Run (Execution Policy)
-If you see an error stating "scripts are disabled on this system," the shortcut's `-ExecutionPolicy Bypass` flag should handle it. However, if it still fails:
-*   **Manual Fix**: Open PowerShell as Administrator and run: `Set-ExecutionPolicy RemoteSigned -Scope LocalMachine`.
-*   **Unblock File**: Right-click your `.ps1` file, select **Properties**, and check the **Unblock** box at the bottom.
-
-### Icon Not Visible in System Tray
-*   **Hidden Icons**: Windows often hides new tray icons. Click the **^** arrow in your taskbar and drag the icon onto the main taskbar area to keep it visible.
-*   **Missing Icon File**: Ensure `wrm_icon.ico` is in the exact folder specified in your script. If the file is missing, the script may fail to initialize the tray icon.
-
-### Connection Issues (Worker cannot find Manager)
-*   **Port Blocked**: Verify that **Port 25565** is allowed through both Windows Firewall and any third-party antivirus software.
-*   **IP Address**: If auto-discovery fails, you may need to manually point the worker to the manager's IP in the `flamenco-worker.cfg` file.
-
-### Script Starts but Window Stays Visible
-*   Ensure the shortcut command includes the `-WindowStyle Hidden` flag. If it still pops up, ensure there are no `Read-Host` or interactive prompts in your script that force the window to stay open for user input.
-
-# Configuration
-
-Important settings in the script:
-
-```id="71i40j"
-$BroadcastPort = 25565
-$CheckIntervalSeconds = 5
-$CrashRestartThreshold = 3
-$WeeklyRestartDay = Sunday
-$WeeklyRestartHour = 12
-```
+**Logs**: Check `FlamencoWatchdog.log` in the script folder for a history of crashes, restarts, and status changes.
 
 ---
 
-# Network
+## 🔍 Troubleshooting
 
-WRM uses **UDP broadcast**.
-
-```id="t2nbc3"
-Port: 25565
-Protocol: UDP
-```
-
-All nodes must be on the **same LAN**.
+* **"Scripts Disabled"**: Right-click the `.ps1` file > **Properties** > Check **Unblock**. 
+* **Missing Icon**: Ensure `wrm_icon.ico` is in the same folder as the script.
+* **Nodes Not Appearing**: Ensure all machines are on the same LAN/Subnet and that your Firewall isn't blocking UDP Port 25565.
 
 ---
 
-# Log File
-
-Each node writes a log file:
-
-```id="69k6w3"
-FlamencoWatchdog.log
-```
-
-Example:
-
-```id="0wh9kr"
-2026-03-10 12:21:04 - (Render03) Worker crashed. Restart #1
-2026-03-10 12:21:05 - (Render03) Worker started
-```
-
----
-
-# Safety Features
-
-* Prevents duplicate worker processes
-* Detects crashed processes
-* Automatic restart handling
-* Prevents runaway restart loops
-* Scheduled node reboots
-
----
-
-# Why This Exists
-
-Flamenco runs in a **console window** on all render machines.
-
-For small-scale teams where each user's computer is also used as a render node, it becomes annoying to have a console window **open or minimized all the time**, creating clutter on the taskbar.
-
-Flamenco also does not handle situations where:
-
-* a worker crashes
-* the manager crashes
-* a render node silently fails
-
-If a node crashes, nobody except the render farm manager knows about it. Users would have to manually open the **Flamenco web interface** to check the node status.
-
-Long renders can also take longer if machines have been running for extended periods without restarting.
-
-WRM solves these problems by:
-
-* running Flamenco in the background
-* monitoring worker and manager processes
-* automatically restarting crashed services
-* notifying other nodes when failures occur
-* restarting systems on a weekly schedule
-
-WRM does all of this **without requiring specific Flamenco versions**.
-
-Technically, WRM can monitor **any program that needs to stay running**. Only the worker and manager executable paths need to be changed.
+<p align="center">
+  <a href="https://flamenco.blender.org">
+    Visit the Flamenco Project
+  </a>
+</p>
