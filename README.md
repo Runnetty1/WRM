@@ -1,6 +1,8 @@
-<img src="WRM_white.png" alt="WRM LOGO" width="400">
+<p align="center">
+  <img src="WRM_white.png" alt="WRM LOGO" width="400">
+</p>
 
-#Watchdog Renderfarm Manager (WRM)
+# Watchdog Renderfarm Manager (WRM)
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.0+-blue)
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
