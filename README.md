@@ -5,7 +5,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Project-Stable-brightgreen)
 
-![WRM LOGO](wrm.png)
+![WRM LOGO](wrm_white.png)
 A lightweight **PowerShell render node watchdog and cluster manager** designed for **Flamenco render farms**.
 
 
