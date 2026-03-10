@@ -187,55 +187,62 @@ GPU monitoring requires:
 
 ---
 
-# Installation
+# Installation Guide
 
-Place the script and icon in the same folder as the Flamenco executables. 
+### 1. Prerequisites
+Before setting up the manager/worker scripts:
+*   Follow the official [Flamenco Quickstart Guide](https://flamenco.blender.org).
+*   **Firewall**: Ensure inbound and outbound rules are open for the required ports on all machines. (Default: **Port 25565**).
+*   **Auto-Login**: Configure Windows to bypass the login screen so nodes resume automatically after a restart.
 
-Example:
+### 2. File Placement
+Place the script and its icon in the same directory as your Flamenco executables.
 
-```id="w7p3ht"
+**Example Structure:**
+```text
 rendernode/
- ├ WatchdogRenderfarmManager.ps1
- ├ flamenco-worker.exe
- ├ flamenco-manager.exe
- └ wrm_icon.ico
+ ├─ WatchdogRenderfarmManager.ps1
+ ├─ flamenco-worker.exe
+ ├─ flamenco-manager.exe
+ └─ wrm_icon.ico
+```
+
+### 3. Configure Windows Auto-Start
+To ensure the manager and workers start automatically on boot:
+
+1. Press `Win + R`, type **`shell:startup`**, and hit Enter to open your Startup folder.
+2. Right-click inside the folder and select **New > Shortcut**.
+3. In the location box, paste the appropriate command (replace `Z:\path\to\` with your actual file path):
+
+**For Workers:**
+```powershell
+powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Z:\path\to\WatchdogRenderfarmManager.ps1"
+```
+
+**For the Manager:**
+```powershell
+powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Z:\path\to\WatchdogRenderfarmManager.ps1" -Manager
 ```
 
 ---
 
-# Usage
+## 🛠️ Troubleshooting
 
-### Worker Node
+### Script Fails to Run (Execution Policy)
+If you see an error stating "scripts are disabled on this system," the shortcut's `-ExecutionPolicy Bypass` flag should handle it. However, if it still fails:
+*   **Manual Fix**: Open PowerShell as Administrator and run: `Set-ExecutionPolicy RemoteSigned -Scope LocalMachine`.
+*   **Unblock File**: Right-click your `.ps1` file, select **Properties**, and check the **Unblock** box at the bottom.
 
-Run:
+### Icon Not Visible in System Tray
+*   **Hidden Icons**: Windows often hides new tray icons. Click the **^** arrow in your taskbar and drag the icon onto the main taskbar area to keep it visible.
+*   **Missing Icon File**: Ensure `wrm_icon.ico` is in the exact folder specified in your script. If the file is missing, the script may fail to initialize the tray icon.
 
-```id="wnaz4u"
-powershell -ExecutionPolicy Bypass -File WatchdogRenderfarmManager.ps1
-```
+### Connection Issues (Worker cannot find Manager)
+*   **Port Blocked**: Verify that **Port 25565** is allowed through both Windows Firewall and any third-party antivirus software.
+*   **IP Address**: If auto-discovery fails, you may need to manually point the worker to the manager's IP in the `flamenco-worker.cfg` file.
 
-or
-
-```id="q5u1yp"
-WatchdogRenderfarmManager.ps1 -Mode Worker
-```
-
----
-
-### Manager Node
-
-Run:
-
-```id="wsuxt1"
-WatchdogRenderfarmManager.ps1 -Mode Manager
-```
-
-This starts:
-
-* Flamenco Worker
-* Flamenco Manager
-* WRM monitoring tray
-
----
+### Script Starts but Window Stays Visible
+*   Ensure the shortcut command includes the `-WindowStyle Hidden` flag. If it still pops up, ensure there are no `Read-Host` or interactive prompts in your script that force the window to stay open for user input.
 
 # Configuration
 
