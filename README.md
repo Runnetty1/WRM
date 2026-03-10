@@ -1,3 +1,4 @@
+<img src="WRM_white.png" alt="WRM LOGO" width="400">
 # Watchdog Renderfarm Manager (WRM)
 
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.0+-blue)
@@ -5,7 +6,7 @@
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Project-Stable-brightgreen)
 
-![WRM LOGO](WRM_white.png)
+
 A lightweight **PowerShell render node watchdog and cluster manager** designed for **Flamenco render farms**.
 
 
