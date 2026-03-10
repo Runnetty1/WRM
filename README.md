@@ -42,7 +42,7 @@ Nodes communicate via **UDP broadcast** to share:
 * **Remote Control**: Restart specific nodes or the entire farm with one click.
 
 > [!NOTE]
-> **Scalability**: This system has been tested with up to **4 nodes** with negligible CPU and RAM overhead. Larger clusters may experience unexpected CPU spikes or increased memory usage due to the frequency of UDP broadcasts.
+> **Scalability**: This system has been tested with up to **4 nodes** with negligible CPU and RAM overhead. Larger clusters may experience unexpected CPU spikes or increased memory usage due to the frequency of UDP broadcasts. This has not been tested.
 
 
 ### 🖼️ Tray UI Overview
