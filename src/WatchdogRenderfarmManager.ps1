@@ -24,7 +24,7 @@ $StatusBroadcastEveryTicks = 1
 # ===========================================
 $Hostname = $env:COMPUTERNAME
 $global:Nodes = @{}
-$global:AnnouncedNodes = @{}
+$global:KnownNodes = @{}
 $global:WorkerCrashCount = 0
 $global:ManagerCrashCount = 0
 $global:LastNodeMenuSignature = ""
@@ -281,6 +281,7 @@ function Receive-UdpMessages {
                 $node = $parts[1]
                 if ([string]::IsNullOrWhiteSpace($node)) { continue }
                 $isNewNode = -not $global:Nodes.ContainsKey($node)
+                $wasSeenBefore = $global:KnownNodes.ContainsKey($node)
 
                 if ($node -ne $Hostname) {
                     $global:Nodes[$node] = @{
@@ -291,18 +292,13 @@ function Receive-UdpMessages {
                         cpu =  $parts[5] 
                         gpu =  $parts[6] 
                     }
-                    if ($isNewNode -and $node -ne $Hostname) {
-
-                        if (-not $global:AnnouncedNodes.ContainsKey($node)) {
-
-                            Show-Notification `
-                                "Render Node Online" `
-                                "$node is now online"
-                                
-
-                            $global:AnnouncedNodes[$node] = $true
-                        }
+                    if ($isNewNode -and $wasSeenBefore) {
+                        Show-Notification `
+                            "Render Node Online" `
+                            "$node is back online"
                     }
+
+                    $global:KnownNodes[$node] = $true
                 }
             }
             elseif ($parts[0] -eq "CMD" -and $parts.Count -ge 2) {
@@ -317,7 +313,7 @@ function Receive-UdpMessages {
             }elseif ($parts[0] -eq "EVENT" -and $parts.Count -ge 4) {
 
                 $node = $parts[1]
-                $etype = $parts[2]
+                #$etype = $parts[2]
                 $msgText = $parts[3]
 
                 if ($node -ne $Hostname) {
@@ -325,7 +321,7 @@ function Receive-UdpMessages {
                     $title = "Render Node Event"
                     $text = "$node : $msgText"
 
-                    Write-Log "EVENT from $node : $msgText"
+                    #Write-Log "EVENT from $node : $msgText"
                     Show-Notification $title $text
                 }
             }
@@ -342,14 +338,13 @@ function Update-NodesMenu {
     foreach ($name in @($global:Nodes.Keys)) {
     if ($global:Nodes[$name].time -lt $cutoff) {
 
-        Write-Log "Node offline: $name"
+        #Write-Log "Node offline: $name"
 
         Show-Notification `
             "Render Node Offline" `
             "$name is offline"
 
         $global:Nodes.Remove($name)
-        $global:AnnouncedNodes.Remove($name)
     }
 }
 
