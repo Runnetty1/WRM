@@ -18,12 +18,12 @@ WRM runs quietly in the **Windows system tray**, monitoring nodes, automatically
 
 ## ✨ Why WRM?
 
-Standard Flamenco workers run in visible console windows which can be cluttered and easily closed by accident. Furthermore, Flamenco doesn't natively handle service crashes or silent node failures. 
+Standard Flamenco worker and manager run in visible console windows which can be cluttered and easily closed by accident. Furthermore, Flamenco doesn't natively handle service crashes or silent node failures. 
 
 **WRM solves this by:**
 * **Running Stealth**: No more taskbar clutter; Flamenco runs in the background.
 * **Self-Healing**: Detects crashes and restarts services (or the OS) automatically.
-* **Live Insight**: Real-time CPU/GPU monitoring directly from your system tray.
+* **Live Insight**: Real-time CPU/GPU monitoring directly from your system tray, on any node.
 * **Zero Config**: Uses UDP broadcast for instant "it just works" discovery.
 
 ---
