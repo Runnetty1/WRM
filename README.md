@@ -95,11 +95,18 @@ powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Drive:\Path\to
 
 ## ⚙️ Configuration & Logs
 You can tweak the following variables directly inside the `.ps1` file:
-* `$BroadcastPort = 25565`
-* `$CheckIntervalSeconds = 5`
-* `$CrashRestartThreshold = 3`
+* `$watchdog = "Watchdog Renderfarm Manager"` - Name of watchdog
+* `$WorkerPath  = Join-Path $BaseDir "flamenco-worker.exe"`
+* `$ManagerPath = Join-Path $BaseDir "flamenco-manager.exe"`
+* `$LogFile     = Join-Path $BaseDir "Watchdog.log"`
+* `$IconPath = Join-Path $PSScriptRoot "wrm.ico"`
+* `$CheckIntervalSeconds = 5` - How often to check for crashes/restarts etc
+* `$CrashRestartThreshold = 3` - Max Crashes before computer restarts - set this higher if you get constant restart loops
+* `$WeeklyRestartDay = "Sunday"`
+* `$WeeklyRestartHour = 12`
+* `$BroadcastPort = 25565` - Port to send and recieve node information.
 
-**Logs**: Check `FlamencoWatchdog.log` in the script folder for a history of crashes, restarts, and status changes.
+**Logs**: Check `Watchdog.log` in the shared folder for a history of crashes, restarts, and status changes.
 
 ---
 
