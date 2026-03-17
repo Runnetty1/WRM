@@ -79,7 +79,7 @@ rendernode
 
 ### 3. Setup Auto-Start
 1. Press `Win + R`, type `shell:startup`, and hit Enter.
-2. Create a **New Shortcut** and paste the command (update the path to your `WatchdogRenderfarmManager`):
+2. Create a **New Shortcut** and paste the command (update the path to your `WatchdogRenderfarmManager`) and the path to Flamenco (defaults to Z:\):
 
 **For Workers:**
 ```powershell
