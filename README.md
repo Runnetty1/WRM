@@ -108,7 +108,7 @@ You can tweak the following variables directly inside the `.ps1` file:
 ## 🔍 Troubleshooting
 
 * **"Scripts Disabled"**: Right-click the `.ps1` file > **Properties** > Check **Unblock**. 
-* **Missing Icon**: Ensure `wrm_icon.ico` is in the same folder as the script.
+* **Missing Icon**: Ensure `wrm.ico` is in the same folder as the script.
 * **Nodes Not Appearing**: Ensure all machines are on the same LAN/Subnet and that your Firewall isn't blocking UDP Port 25565.
 * **Hidden nodes**: The system is only tested with up to 4 Nodes, if the list is too long or unexpected 
 
