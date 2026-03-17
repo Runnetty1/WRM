@@ -7,7 +7,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 # ================= CONFIG =================
-$BaseDir = $PSScriptRoot
+$BaseDir = "Z:\"
 $watchdog = "Watchdog Renderfarm Manager"
 $WorkerPath  = Join-Path $BaseDir "flamenco-worker.exe"
 $ManagerPath = Join-Path $BaseDir "flamenco-manager.exe"
