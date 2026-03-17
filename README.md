@@ -95,11 +95,6 @@ powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Drive:\Path\to
 
 ## ⚙️ Configuration & Logs
 You can tweak the following variables directly inside the `.ps1` file:
-* `$watchdog = "Watchdog Renderfarm Manager"` - Name of watchdog
-* `$WorkerPath  = Join-Path $BaseDir "flamenco-worker.exe"`
-* `$ManagerPath = Join-Path $BaseDir "flamenco-manager.exe"`
-* `$LogFile     = Join-Path $BaseDir "Watchdog.log"`
-* `$IconPath = Join-Path $PSScriptRoot "wrm.ico"`
 * `$CheckIntervalSeconds = 5` - How often to check for crashes/restarts etc
 * `$CrashRestartThreshold = 3` - Max Crashes before computer restarts - set this higher if you get constant restart loops
 * `$WeeklyRestartDay = "Sunday"`
