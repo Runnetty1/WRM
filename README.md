@@ -51,9 +51,9 @@ The tray menu provides a bird's-eye view of your entire network:
 Network Nodes
   [Restart All Nodes]
 
-  Render01   ●●   CPU 93%  GPU 99%
-  Render02   ●●   CPU 81%  GPU 96%
-  Render03   ●○   CPU 12%  GPU 0%
+  ●●  Render01   CPU 93%  GPU 99%
+  ●●  Render02   CPU 81%  GPU 96%
+  ●○  Render03   CPU 12%  GPU 0%
 ```
 *   ●● : Both Worker & Manager Active
 *   ●○ : Worker Only Active
