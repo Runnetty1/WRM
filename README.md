@@ -70,27 +70,25 @@ Network Nodes
 * **OS Settings**: Disable Windows login passwords to allow nodes to auto-resume after reboots.
 
 ### 2. File Placement
-Place the script and icon in your Flamenco directory:
+Place the script and icon in any directory on each node (note the location):
 ```text
-rendernode/
+rendernode
  ├─ WatchdogRenderfarmManager.ps1
- ├─ flamenco-worker.exe
- ├─ flamenco-manager.exe
  └─ wrm_icon.ico
 ```
 
 ### 3. Setup Auto-Start
 1. Press `Win + R`, type `shell:startup`, and hit Enter.
-2. Create a **New Shortcut** and paste the command (update the path to your `Z:\` or local drive):
+2. Create a **New Shortcut** and paste the command (update the path to your `WatchdogRenderfarmManager`):
 
 **For Workers:**
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Z:\path\to\WatchdogRenderfarmManager.ps1"
+powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Drive:\path\to\WatchdogRenderfarmManager.ps1" Z:\
 ```
 
 **For the Manager:**
 ```powershell
-powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Z:\path\to\WatchdogRenderfarmManager.ps1" -Manager
+powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Drive:\path\to\WatchdogRenderfarmManager.ps1" -Manager Z:\
 ```
 
 ---
