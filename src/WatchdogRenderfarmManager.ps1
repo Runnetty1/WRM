@@ -1,18 +1,19 @@
 param(
     [ValidateSet("Worker","Manager")]
-    [string]$Mode = "Worker"
+    [string]$Mode = "Worker",
+    [string]$BaseDir = "Z:\"
 )
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 # ================= CONFIG =================
-$BaseDir = "Z:\"
+$BaseDir = $BaseDir.TrimEnd('\') # Remove trailing backslash if present
 $watchdog = "Watchdog Renderfarm Manager"
 $WorkerPath  = Join-Path $BaseDir "flamenco-worker.exe"
 $ManagerPath = Join-Path $BaseDir "flamenco-manager.exe"
 $LogFile     = Join-Path $BaseDir "Watchdog.log"
-$IconPath = "Z:\wrm.ico"
+$IconPath = Join-Path $PSScriptRoot "wrm.ico"
 $CheckIntervalSeconds = 5
 $CrashRestartThreshold = 3
 $WeeklyRestartDay = "Sunday"
