@@ -70,7 +70,7 @@ Network Nodes
 * **OS Settings**: Disable Windows login passwords to allow nodes to auto-resume after reboots.
 
 ### 2. File Placement
-Place the script and icon in same directory as Flamenco-worker and Manager on each node (Dont place it in the shared folder! Use Documents or similar):
+Place the script and icon in the same directory as Flamenco Worker and Manager on each node (do not place it in the shared folder — use Documents or a similar local path):
 ```text
 rendernode
  ├─ WatchdogRenderfarmManager.ps1
@@ -78,6 +78,8 @@ rendernode
  ├─ flamenco-worker.exe
  └─ wrm_icon.ico
 ```
+> [!NOTE] 
+> On worker nodes, flamenco-manager.exe is not required in the WRM folder. Only the main Manager machine needs both flamenco-manager.exe and flamenco-worker.exe. Worker nodes only need flamenco-worker.exe along with the script and icon.
 
 Open `WatchdogRenderfarmManager.ps1` in a text editor (e.g., Notepad) and update the third line to match the drive letter of your shared storage. This ensures the log file can be written and accessed correctly.
 ```text
@@ -87,7 +89,7 @@ Open `WatchdogRenderfarmManager.ps1` in a text editor (e.g., Notepad) and update
 ### 3. Setup Auto-Start
 1. Press `Win + R`, type `shell:startup`, and hit Enter.
 2. Create a **New Shortcut** and paste the command (update the path to your `WatchdogRenderfarmManager`) and the directory to to Flamenco shared folder (defaults to Z:\):
-
+Add Worker or Manager at the end to tell the system if its a worker or manager
 **For Workers:**
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -File "Drive:\Path\to\WatchdogRenderfarmManager.ps1" Worker
