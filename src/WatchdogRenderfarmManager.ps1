@@ -1,17 +1,20 @@
 param(
     [ValidateSet("Worker","Manager")]
     [string]$Mode = "Worker",
-    [string]$BaseDir = "Z:\"
+    [string]$BaseDir = 'Z:'
 )
 
+$BaseDir = $BaseDir.TrimEnd('\')
+Write-Host "Mode: $Mode"
+Write-Host "BaseDir: $BaseDir"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 # ================= CONFIG =================
-$BaseDir = $BaseDir.TrimEnd('\') # Remove trailing backslash if present
+
 $watchdog = "Watchdog Renderfarm Manager"
-$WorkerPath  = Join-Path $BaseDir "flamenco-worker.exe"
-$ManagerPath = Join-Path $BaseDir "flamenco-manager.exe"
+$WorkerPath  = Join-Path $PSScriptRoot "flamenco-worker.exe"
+$ManagerPath = Join-Path $PSScriptRoot "flamenco-manager.exe"
 $LogFile     = Join-Path $BaseDir "Watchdog.log"
 $IconPath = Join-Path $PSScriptRoot "wrm.ico"
 $CheckIntervalSeconds = 5
@@ -33,7 +36,9 @@ $global:TickCounter = 0
 
 function Write-Log($message) {
     $timestamp = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+    $P= $LogFile + "$timestamp - ($Hostname) [$Mode] $message"
     Add-Content -Path $LogFile -Value "$timestamp - ($Hostname) [$Mode] $message"
+    Write-Host "$P"
 }
 function Get-NodeMenuSignature {
     $parts = foreach ($name in ($global:Nodes.Keys | Sort-Object)) {
@@ -129,9 +134,12 @@ function Test-Running($Path) {
 }
 
 # Initial Start
+Write-Host "Starting Worker at $WorkerPath"
 Start-App $WorkerPath
 if ($Mode -eq "Manager") {
+    Write-Host "Mode is Manager Starting Manager at $ManagerPath"
     Start-App $ManagerPath
+    
 }
 
 # ================= Tray Setup =================
